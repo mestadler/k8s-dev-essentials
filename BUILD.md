@@ -93,6 +93,22 @@ Combine with `--strict-user-systemd` for maximum strictness:
 ./scripts/verify-runtime-prereqs.sh --ci-mode --strict-user-systemd
 ```
 
+## Continuous Integration
+
+This repository uses GitHub Actions for automated builds. The CI workflow:
+
+- Triggers on push to `main` and pull requests
+- Runs in a privileged Debian sid container (required for rootless containerd)
+- Steps:
+  1. Verify runtime prerequisites with `--ci-mode`
+  2. Build and package (`./scripts/build-package-verify.sh`)
+  3. Run rootless validation tests
+  4. Upload `.deb` artifacts
+
+**Workflow file**: `.github/workflows/ci.yml`
+
+**Forgejo Migration**: The workflow is designed to be compatible with Forgejo Actions. Future work includes migrating to git.sansnom.uk with LFS support for artifact storage.
+
 ## Lessons Learned
 
 - Debian sid may not provide all required build/runtime tooling in apt; local upstream bootstrap scripts are necessary.
