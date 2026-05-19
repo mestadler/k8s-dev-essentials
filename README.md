@@ -38,6 +38,7 @@ Artifacts are written to `artifacts/`.
 
 - Verify host prerequisites:
   - `./scripts/verify-runtime-prereqs.sh`
+  - `./scripts/verify-runtime-prereqs.sh --ci-mode` (CI-friendly, strict)
 - Build with optional apt snapshot pinning:
   - `APT_SNAPSHOT=20260518T000000Z ./scripts/build-nerdctl-full.sh`
 - Configure systemd to use `/usr/local/bin/containerd`:

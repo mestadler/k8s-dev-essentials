@@ -45,6 +45,8 @@ Check host requirements with:
 
 - `./scripts/verify-runtime-prereqs.sh`
 - `./scripts/verify-runtime-prereqs.sh --strict-user-systemd` (fails on user systemd context warnings)
+- `./scripts/verify-runtime-prereqs.sh --ci-mode` (CI-friendly, fails on all warnings)
+- `./scripts/verify-runtime-prereqs.sh --ci-mode --strict-user-systemd` (maximum strictness for CI)
 
 ## Build-Time Inputs
 
