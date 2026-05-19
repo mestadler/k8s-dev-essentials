@@ -1,0 +1,86 @@
+name: CI - Build and Package
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+# Future: Add scheduled trigger for upstream release watching
+# on:
+#   schedule:
+#     - cron: '0 0 * * *'  # Daily at midnight UTC
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: debian:sid
+      # Privileged mode required for rootless containerd
+      options: --privileged
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+        # LFS support for future artifact storage
+        lfs: true
+
+    - name: Install system dependencies
+      run: |
+        apt-get update
+        apt-get install -y \
+          git \
+          build-essential \
+          uidmap \
+          slirp4netns \
+          containernetworking-plugins \
+          dbus-user-session \
+          ca-certificates \
+          curl \
+          jq
+
+    - name: Configure subuid/subgid for rootless
+      run: |
+        echo "runner:100000:65536" >> /etc/subuid
+        echo "runner:100000:65536" >> /etc/subgid
+
+    - name: Verify runtime prerequisites
+      run: |
+        ./scripts/verify-runtime-prereqs.sh --ci-mode
+
+    - name: Build and package
+      run: |
+        ./scripts/build-package-verify.sh
+
+    - name: Run rootless validation
+      env:
+        RUN_ROOTLESS_VALIDATION: 1
+        XDG_RUNTIME_DIR: /run/user/1001
+      run: |
+        mkdir -p /run/user/1001
+        chmod 700 /run/user/1001
+        # Start dbus for systemd user session
+        export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1001/bus
+        dbus-daemon --session --address=$DBUS_SESSION_BUS_ADDRESS --nofork --nopidfile &
+        sleep 2
+        ./scripts/build-package-verify.sh
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: nerdctl-full-deb
+        path: artifacts/*.deb
+        retention-days: 30
+        # Future: Store in LFS on git.sansnom.uk
+
+    - name: Upload logs on failure
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-logs
+        path: |
+          artifacts/
+          *.log
+        retention-days: 7

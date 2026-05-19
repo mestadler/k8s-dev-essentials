@@ -12,18 +12,23 @@
 - [x] Add optional apt snapshot pinning support (`APT_SNAPSHOT`)
 - [x] Add one-shot pipeline wrapper (`scripts/build-package-verify.sh`)
 - [x] Add dependency and workflow documentation
+- [x] Add runtime selection verification script for systemd + PATH
+  - [x] Add --strict-user-systemd flag
+  - [x] Add --ci-mode flag (PR #7 merged)
+  - [x] Update documentation (BUILD.md, README.md, DEPENDENCIES.md)
+  - [ ] **Future**: revisit for comprehensive pluggable severity system (Option B)
+- [x] Add CI pipeline (GitHub Actions)
+  - [x] Build workflow for push to main and PRs
+  - [x] Rootless validation in CI
+  - [x] Artifact upload (.deb packages)
 
 ## Next
 
+- [ ] **IN PROGRESS**: Migrate CI to Forgejo (git.sansnom.uk) with LFS support
 - [ ] Optional: split `nerdctl-full` into multiple Debian packages per tool group
-- [ ] Optional: add CI pipeline (GitHub Actions or Forgejo)
 - [ ] Optional: add release watcher for upstream `nerdctl` tags
 - [ ] Optional: add package signing and checksum publishing workflow
-- [ ] Optional: add runtime selection verification script for systemd + PATH
-  - [x] Add --strict-user-systemd flag
-  - [ ] Add --ci-mode flag (implementing now)
-  - [ ] Update documentation
-  - [ ] **Future**: revisit for comprehensive pluggable severity system (see Option B notes)
+- [ ] **Future**: Runtime verification - comprehensive pluggable severity system (Option B)
 
 ## Pause Point
 
