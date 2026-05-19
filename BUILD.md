@@ -53,6 +53,8 @@ Check host prerequisites:
 
 - `./scripts/verify-runtime-prereqs.sh`
 - strict mode: `./scripts/verify-runtime-prereqs.sh --strict-user-systemd`
+- CI mode (all checks must pass): `./scripts/verify-runtime-prereqs.sh --ci-mode`
+- maximum strictness: `./scripts/verify-runtime-prereqs.sh --ci-mode --strict-user-systemd`
 
 After package install (system service override):
 
@@ -70,6 +72,26 @@ Rollback to distro service behavior:
   - `APT_SNAPSHOT=20260518T000000Z ./scripts/build-nerdctl-full.sh`
 - Full dependency and prerequisite reference: `DEPENDENCIES.md`
 - Current checklist and upcoming work: `TODO.md`
+
+## CI Mode
+
+For automated testing and CI pipelines, use the `--ci-mode` flag:
+
+```bash
+./scripts/verify-runtime-prereqs.sh --ci-mode
+```
+
+In CI mode:
+- All warnings are treated as errors (non-zero exit on any issue)
+- Output includes timestamps and clear PASS/FAIL status
+- No ANSI color codes (CI-friendly logging)
+- Suitable for GitHub Actions, Jenkins, and other CI systems
+
+Combine with `--strict-user-systemd` for maximum strictness:
+
+```bash
+./scripts/verify-runtime-prereqs.sh --ci-mode --strict-user-systemd
+```
 
 ## Lessons Learned
 
