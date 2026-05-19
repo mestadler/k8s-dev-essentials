@@ -1,6 +1,6 @@
 # Dependencies
 
-This project builds `nerdctl-full` from upstream `v2.2.2` and packages it as:
+This project builds `nerdctl-full` from `nerdctl` `v2.2.2` with a small local Dockerfile patch (optional apt snapshot support) and packages it as:
 
 - `nerdctl-full_2.2.2-0sans1_amd64.deb`
 
@@ -32,14 +32,14 @@ Current package metadata in control file:
 
 ## Host Runtime Requirements
 
-Expected on host for rootless workflows:
+Expected on host for rootless workflows (post-install):
 
-- `rootlesskit`
 - `newuidmap`, `newgidmap` (`uidmap` package)
-- `slirp4netns`
 - CNI bridge plugin at `/usr/lib/cni/bridge` (`containernetworking-plugins` package)
 - `/etc/subuid` and `/etc/subgid` entries for the user
 - working `systemctl --user` session
+
+Note: `rootlesskit` and `slirp4netns` are bundled in the package, but keeping distro packages available is still recommended.
 
 Check host requirements with:
 
@@ -48,7 +48,7 @@ Check host requirements with:
 
 ## Build-Time Inputs
 
-Build-time dependencies are resolved from upstream Dockerfile and include:
+Build-time dependencies are resolved from the submodule Dockerfile and include:
 
 - pinned component tags/versions in `nerdctl/Dockerfile`
 - Go modules from upstream sources

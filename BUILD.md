@@ -1,6 +1,6 @@
 # Build Workflow
 
-This repository builds and packages `nerdctl-full` from upstream tag `v2.2.2`.
+This repository builds and packages `nerdctl-full` from `nerdctl` `v2.2.2` with a small local Dockerfile patch for optional apt snapshot pinning.
 
 ## Targets
 
@@ -69,6 +69,7 @@ Rollback to distro service behavior:
 - Optional apt snapshot pinning is supported for build reproducibility:
   - `APT_SNAPSHOT=20260518T000000Z ./scripts/build-nerdctl-full.sh`
 - Full dependency and prerequisite reference: `DEPENDENCIES.md`
+- Current checklist and upcoming work: `TODO.md`
 
 ## Lessons Learned
 
