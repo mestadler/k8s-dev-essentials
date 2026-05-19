@@ -1,0 +1,13 @@
+# Global gitignore -- Martin Stadler
+# Consolidated: 17-04-26
+# For Python + Go + Node + AI/ML + DevOps
+
+# Project-generated artifacts
+artifacts/
+tools/
+nerdctl/_output/
+nerdctl/vendor/
+
+# OS junk
+.DS_Store
+.DS_Store?

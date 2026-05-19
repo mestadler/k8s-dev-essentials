@@ -1,0 +1,3 @@
+[submodule "nerdctl"]
+	path = nerdctl
+	url = https://github.com/mestadler/nerdctl.git
